@@ -1177,7 +1177,7 @@ nxt_php_execute(nxt_php_run_ctx_t *ctx, nxt_unit_request_t *r)
 
     SG(server_context) = ctx;
     SG(options) |= SAPI_OPTION_NO_CHDIR;
-    SG(request_info).request_uri = nxt_unit_sptr_get(&r->target);
+    SG(request_info).request_uri = nxt_unit_sptr_get(&r->unparsed_uri);
     SG(request_info).request_method = nxt_unit_sptr_get(&r->method);
 
     SG(request_info).proto_num = 1001;
@@ -1488,7 +1488,8 @@ nxt_php_register_variables(zval *track_vars_array TSRMLS_DC)
 
     nxt_php_set_sptr(req, "REQUEST_METHOD", &r->method, r->method_length,
                      track_vars_array TSRMLS_CC);
-    nxt_php_set_sptr(req, "REQUEST_URI", &r->target, r->target_length,
+    nxt_php_set_sptr(req, "REQUEST_URI", &r->unparsed_uri,
+                     r->unparsed_uri_length,
                      track_vars_array TSRMLS_CC);
     nxt_php_set_sptr(req, "QUERY_STRING", &r->query, r->query_length,
                      track_vars_array TSRMLS_CC);

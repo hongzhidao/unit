@@ -5408,6 +5408,7 @@ nxt_router_prepare_msg(nxt_task_t *task, nxt_http_request_t *r,
                + r->local->address_length + 1
                + nxt_sockaddr_port_length(r->local) + 1
                + r->server_name.length + 1
+               + r->unparsed_uri.length + 1
                + r->target.length + 1
                + (r->path->start != r->target.start ? r->path->length + 1 : 0);
 
@@ -5480,6 +5481,11 @@ nxt_router_prepare_msg(nxt_task_t *task, nxt_http_request_t *r,
     req->server_name_length = r->server_name.length;
     nxt_unit_sptr_set(&req->server_name, p);
     p = nxt_cpymem(p, r->server_name.start, r->server_name.length);
+    *p++ = '\0';
+
+    req->unparsed_uri_length = (uint32_t) r->unparsed_uri.length;
+    nxt_unit_sptr_set(&req->unparsed_uri, p);
+    p = nxt_cpymem(p, r->unparsed_uri.start, r->unparsed_uri.length);
     *p++ = '\0';
 
     target_pos = p;

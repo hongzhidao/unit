@@ -651,6 +651,9 @@ nxt_h1p_header_process(nxt_task_t *task, nxt_h1proto_t *h1p,
     u_char     *m;
     nxt_int_t  ret;
 
+    r->unparsed_uri.start = h1p->parser.target_start;
+    r->unparsed_uri.length = h1p->parser.target_end - h1p->parser.target_start;
+
     r->target.start = h1p->parser.target_start;
     r->target.length = h1p->parser.target_end - h1p->parser.target_start;
 
