@@ -148,7 +148,7 @@ def test_tls_certificate_remove_used():
 
     client.certificate()
 
-    add_tls()
+    add_tls(cert=['default', 'default'])
 
     assert 'error' in client.conf_delete(
         '/certificates/default'
